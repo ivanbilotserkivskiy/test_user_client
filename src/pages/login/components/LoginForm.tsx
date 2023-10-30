@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../../api/api";
 import { LoginData } from "../../../types/LoginData";
 import { useState } from "react";
 import Cookies from "universal-cookie";
+import { useErrorBoundary } from "react-error-boundary";
 
 const cookies = new Cookies(null, { path: "/" });
 
@@ -10,7 +12,8 @@ const LoginForm = () => {
     username: "",
     password: "",
   });
-
+  const navigate = useNavigate();
+  const { showBoundary } = useErrorBoundary();
   const [isError, setIsError] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -31,12 +34,16 @@ const LoginForm = () => {
         setIsError(loginStatus.message || "");
         return;
       }
+      localStorage.setItem("userId", JSON.stringify(loginStatus.userId));
       if (loginStatus.access_token) {
         cookies.set("jwt_authorization", loginStatus.access_token, {
           path: "/",
           expires: new Date(Date.now() * 1000),
         });
       }
+      navigate("/");
+    } catch (error) {
+      showBoundary(error);
     } finally {
       setIsLoading(false);
     }

@@ -6,8 +6,8 @@ import {
 } from "react-router-dom";
 import App from "./App";
 import LoginPage from "./pages/login/LoginPage";
-import TestsPage from "./pages/feed/TestsPage";
-import TestPage from "./pages/article/TestPage";
+import TestsPage from "./pages/tests/TestsPage";
+import TestPage from "./pages/test/TestPage";
 import NotFoundPage from "./pages/notFound/NotFoundPage";
 import PrivateRoute from "./utils/PrivateRoute";
 
